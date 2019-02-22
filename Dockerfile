@@ -17,7 +17,7 @@ RUN apt-get update -y && apt-get install wget libpcre3 libpcre3-dev zlib1g-dev l
     mv apr-util-${APR_UTIL_VERSION} apr-util && \
     mv apr apr-util httpd-${APACHE_VERSION}/srclib/ && \
     cd httpd-${APACHE_VERSION}/ && \
-    sudo ./configure \
+    ./configure \
         --prefix=/usr/local/apache-${APACHE_VERSION} \    
 	--enable-so \
 	--enable-auth-digest \ 
@@ -38,17 +38,17 @@ RUN apt-get update -y && apt-get install wget libpcre3 libpcre3-dev zlib1g-dev l
 	--enable-usertrack \  
 	--with-mpm=event \
         && \
-    sudo make && \
-    sudo make install && \
+    make && \
+    make install && \
 
-    sudo chown -R daemon:daemon /usr/local/apache-${APACHE_VERSION}/ -R && \
-    sudo chmod -R 755 /usr/local/apache-${APACHE_VERSION}/ -R && \
+    chown -R daemon:daemon /usr/local/apache-${APACHE_VERSION}/ -R && \
+    chmod -R 755 /usr/local/apache-${APACHE_VERSION}/ -R && \
 
-    sudo ln -sf  /usr/local/apache-${APACHE_VERSION} /usr/local/apache && \
+    ln -sf  /usr/local/apache-${APACHE_VERSION} /usr/local/apache && \
 ## Forward request and error logs to docker log collector
-    sudo ln -sf /dev/stdout /usr/local/apache/logs/https.access.log && \
-    sudo ln -sf /dev/stderr /usr/local/apache/logs/debug.error.log && \
-    sudo /usr/local/apache-${APACHE_VERSION} start 'daemon off;'
+    ln -sf /dev/stdout /usr/local/apache/logs/https.access.log && \
+    ln -sf /dev/stderr /usr/local/apache/logs/debug.error.log && \
+    /usr/local/apache-${APACHE_VERSION} start 'daemon off;'
 ##Opening port for the Container
 
 EXPOSE 80 443
